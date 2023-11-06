@@ -8,6 +8,25 @@ class TimeRange extends StatefulWidget {
 }
 
 class _TimeRangeState extends State<TimeRange> {
+  TimeOfDay initialTime = TimeOfDay.now();
+  TimeOfDay finalTime = TimeOfDay.now();
+
+  Future<void> _selectTime(BuildContext context, bool isInitial) async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: isInitial ? initialTime : finalTime,
+    );
+    if (pickedTime != null &&
+        pickedTime != (isInitial ? initialTime : finalTime)) {
+      setState(() {
+        if (isInitial)
+          initialTime = pickedTime;
+        else
+          finalTime = pickedTime;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // var size = MediaQuery.of(context).size;
@@ -26,9 +45,67 @@ class _TimeRangeState extends State<TimeRange> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                timeSelector(),
+                InkWell(
+                  onTap: () {
+                    _selectTime(context, true);
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 110,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            "${initialTime.hour > 12 ? "${initialTime.hour - 12}" : initialTime.hour} ${initialTime.hour > 11 ? "PM" : "AM"}"),
+                        const Icon(
+                          Icons.keyboard_arrow_down,
+                          weight: 48,
+                          size: 30,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // timeSelector(),
                 Text('to'),
-                timeSelector(),
+                // timeSelector(),
+                InkWell(
+                  onTap: () {
+                    _selectTime(context, false);
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 110,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            "${finalTime.hour > 12 ? "${finalTime.hour - 12}" : finalTime.hour} ${finalTime.hour > 11 ? "PM" : "AM"}"),
+                        const Icon(
+                          Icons.keyboard_arrow_down,
+                          weight: 48,
+                          size: 30,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             )
           ],
@@ -48,7 +125,7 @@ class timeSelector extends StatelessWidget {
     return SizedBox(
       width: 120,
       child: DropdownButtonFormField<String>(
-        icon: Icon(
+        icon: const Icon(
           Icons.keyboard_arrow_down,
           weight: 48,
           size: 30,
