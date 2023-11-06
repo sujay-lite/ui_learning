@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/style.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,31 +33,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  OtpFieldController otpController = OtpFieldController();
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.cleaning_services),
+        onPressed: () {
+          print("Floating button was pressed.");
+          otpController.clear();
+          // otpController.set(['2', '3', '5', '5', '7']);
+          // otpController.setValue('3', 0);
+          // otpController.setFocus(1);
+        },
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'HI',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: OTPTextField(
+            controller: otpController,
+            length: 4,
+            width: size.width / 1.5,
+            textFieldAlignment: MainAxisAlignment.spaceAround,
+            fieldWidth: 45,
+            fieldStyle: FieldStyle.underline,
+            // outlineBorderRadius: 15,
+            style: const TextStyle(fontSize: 17),
+            onChanged: (pin) {
+              print("Changed: " + pin);
+            },
+            onCompleted: (pin) {
+              print("Completed: " + pin);
+            }),
       ),
     );
   }
