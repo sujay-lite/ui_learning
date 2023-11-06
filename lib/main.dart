@@ -55,10 +55,14 @@ class _MyHomePageState extends State<MyHomePage> {
             length: 4,
             width: size.width / 1.5,
             textFieldAlignment: MainAxisAlignment.spaceAround,
-            fieldWidth: 45,
+            fieldWidth: 40,
             fieldStyle: FieldStyle.underline,
             // outlineBorderRadius: 15,
-            style: const TextStyle(fontSize: 17),
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w900,
+              color: Colors.black54,
+            ),
             onChanged: (pin) {
               print("Changed: " + pin);
             },
