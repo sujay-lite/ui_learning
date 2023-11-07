@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ui_learning/view/time-range.dart';
+import 'package:ui_learning/view/stepper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black54),
         // useMaterial3: true,
       ),
-      home: const TimeRange(),
+      home: const StepperStep(),
     );
   }
 }
